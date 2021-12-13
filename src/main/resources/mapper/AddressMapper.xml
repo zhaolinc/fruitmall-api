@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="glut.fruitmall.mapper.AddressMapper">
+
+    <resultMap id="BaseResultMap" type="glut.fruitmall.model.Address">
+            <id property="addressid" column="addressid" jdbcType="VARCHAR"/>
+            <result property="openid" column="openid" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="province" column="province" jdbcType="VARCHAR"/>
+            <result property="city" column="city" jdbcType="VARCHAR"/>
+            <result property="county" column="county" jdbcType="VARCHAR"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        addressid,openid,type,
+        name,phone,province,
+        city,county,address,
+        gender
+    </sql>
+
+    <!--  选择所有地址  -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from address where openid = #{value}
+    </select>
+
+    <!--  选择默认地址  -->
+    <select id="selectDefault" resultMap="BaseResultMap">
+        select * from address where openid = #{value} and type = 1
+    </select>
+
+    <!--  更新默认地址  -->
+    <update id="updateDefault" parameterType="String">
+        update address set type = 0 where openid = #{value}
+    </update>
+
+    <!--  新增用户地址  -->
+    <insert id="saveAddress" parameterType="glut.fruitmall.model.Address" keyProperty="addressid">
+        insert into address(addressid,openid,type,
+                            name,phone,province,
+                            city,county,address,
+                            gender)
+        values (#{addressid},#{openid},#{type},#{name},#{phone},#{province},#{city},#{county},#{address},#{gender})
+    </insert>
+</mapper>

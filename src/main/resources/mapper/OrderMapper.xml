@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="glut.fruitmall.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="glut.fruitmall.model.Order">
+            <id property="orderid" column="orderid" jdbcType="VARCHAR"/>
+            <result property="fruitid" column="fruitid" jdbcType="VARCHAR"/>
+            <result property="openid" column="openid" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="filepath" column="filepath" jdbcType="VARCHAR"/>
+            <result property="fruitTitle" column="fruit_title" jdbcType="VARCHAR"/>
+            <result property="fruitDetail" column="fruit_detail" jdbcType="VARCHAR"/>
+            <result property="num" column="num" jdbcType="INTEGER"/>
+            <result property="sumprice" column="sumprice" jdbcType="DOUBLE"/>
+            <result property="evaluation" column="evaluation" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        orderid,fruitid,openid,
+        type,filepath,fruit_title,
+        fruit_detail,num,sumprice,
+        evaluation
+    </sql>
+    
+    <select id="selectAll" parameterType="order" resultMap="BaseResultMap">
+        select * from `order`
+        <where>
+            <if test="openid!=null and openid!=''">
+                AND openid=#{openid}
+            </if>
+            <if test="type!=null and type!=''">
+                AND type=#{type}
+            </if>
+        </where>
+    </select>
+
+    <!--  待发货  -->
+    <update id="update2" parameterType="String">
+        update `order` set type = 2 where orderid = #{value}
+    </update>
+    <!--  待收货  -->
+    <update id="update3" parameterType="String">
+        update `order` set type = 3 where orderid = #{value}
+    </update>
+    <!--  待评价  -->
+    <update id="update4" parameterType="String">
+        update `order` set type = 4 where orderid = #{value}
+    </update>
+    <!--  订单完成  -->
+    <update id="update5" parameterType="String">
+        update `order` set type = 5 where orderid = #{value}
+    </update>
+
+
+    <insert id="insert" parameterType="glut.fruitmall.model.Order" keyProperty="orderid">
+        insert into `order`(orderid,fruitid,openid,type,filepath,fruit_title,fruit_detail,num,sumprice,evaluation)
+        values (#{orderid},#{fruitid},#{openid},#{type},#{filepath},#{fruitTitle},#{fruitDetail},#{num},#{sumprice},#{evaluation})
+    </insert>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="glut.fruitmall.mapper.FruitMapper">
+
+    <resultMap id="BaseResultMap" type="glut.fruitmall.model.Fruit">
+            <id property="fruitid" column="fruitid" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="detail" column="detail" jdbcType="VARCHAR"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="filepath" column="filePath" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        fruitid,title,
+        detail,stock,type,
+        price,status,viewnum,filePath
+    </sql>
+    <!--======================首页页面======================-->
+    <!--  查询首页特价水鬼  -->
+    <select id="lowPrice" resultMap="BaseResultMap">
+        select * from fruit order by price ASC
+    </select>
+    <!--  查询首页推荐水果  -->
+    <select id="viewnum" resultMap="BaseResultMap">
+        select * from fruit order by viewnum DESC
+    </select>
+
+    <!--======================分类页面======================-->
+    <!--  查询分类全部水果  -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from fruit
+    </select>
+    <!--  查询分类水果  -->
+    <select id="selectShui" resultMap="BaseResultMap">
+        select * from fruit where type = 1
+    </select>
+    <!--  查询分类干果  -->
+    <select id="selectGan" resultMap="BaseResultMap">
+        select * from fruit where type = 2
+    </select>
+    <!--  查询特价水果  -->
+    <select id="selectTe" resultMap="BaseResultMap">
+        select * from fruit order by price
+    </select>
+    <!--======================详情页面======================-->
+    <!--根据fruitid查询水果详情-->
+    <select id="selectByfruitid" resultMap="BaseResultMap">
+        select * from fruit where fruitid = #{value}
+    </select>
+</mapper>
